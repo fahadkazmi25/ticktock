@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 import { createTimesheetEntry, getTimesheetById } from '@/lib/db/timesheets';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }

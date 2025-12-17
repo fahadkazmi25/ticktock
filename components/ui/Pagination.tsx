@@ -66,11 +66,11 @@ export const Pagination: React.FC<PaginationProps> = ({
             </div>
 
             {/* Page numbers */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center">
                 <button
                     onClick={() => onPageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="px-3 py-1 text-sm border border-gray-200 hover:border-gray-400 text-gray-700 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-3 py-1 text-sm border border-gray-200 hover:border-gray-400 text-gray-700 rounded-l-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     Previous
                 </button>
@@ -82,8 +82,8 @@ export const Pagination: React.FC<PaginationProps> = ({
                         ) : (
                             <button
                                 onClick={() => onPageChange(page as number)}
-                                className={`min-w-[32px] px-3 py-1 text-sm rounded ${currentPage === page
-                                    ? 'bg-blue-600 text-white'
+                                className={`min-w-[32px] px-3 border border-gray-200 py-1 text-sm  ${currentPage === page
+                                    ? 'bg-gray-100 text-blue'
                                     : 'text-gray-700 hover:bg-gray-100'
                                     }`}
                             >
@@ -96,7 +96,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                 <button
                     onClick={() => onPageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="px-3 py-1 text-sm text-gray-700 border border-gray-200 hover:border-gray-400 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-3 py-1 text-sm text-gray-700 rounded-r-lg border border-gray-200 hover:border-gray-400 hover:bg-gray-100  disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     Next
                 </button>

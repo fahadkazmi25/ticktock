@@ -4,6 +4,8 @@ import { authOptions } from '@/lib/authOptions';
 import { getTimesheetsByUserId } from '@/lib/db/timesheets';
 import { format, parseISO } from 'date-fns';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
     try {
         const session = await getServerSession(authOptions);

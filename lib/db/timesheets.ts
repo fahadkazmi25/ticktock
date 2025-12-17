@@ -26,7 +26,12 @@ export interface Timesheet {
 }
 
 // Mock timesheets database
-export const timesheets: Timesheet[] = [
+const globalForTimesheets = global as unknown as {
+    timesheets: Timesheet[];
+    timesheetEntries: TimesheetEntry[];
+};
+
+export const timesheets: Timesheet[] = globalForTimesheets.timesheets || [
     {
         id: '1',
         userId: '1',
@@ -90,7 +95,7 @@ export const timesheets: Timesheet[] = [
 ];
 
 // Mock timesheet entries database
-export const timesheetEntries: TimesheetEntry[] = [
+export const timesheetEntries: TimesheetEntry[] = globalForTimesheets.timesheetEntries || [
     // Week 1 entries
     {
         id: '1',
@@ -237,6 +242,11 @@ export const timesheetEntries: TimesheetEntry[] = [
         updatedAt: '2024-01-26T09:00:00Z',
     },
 ];
+
+if (process.env.NODE_ENV !== 'production') {
+    globalForTimesheets.timesheets = timesheets;
+    globalForTimesheets.timesheetEntries = timesheetEntries;
+}
 
 // Helper functions
 export const getTimesheetsByUserId = (userId: string): Timesheet[] => {

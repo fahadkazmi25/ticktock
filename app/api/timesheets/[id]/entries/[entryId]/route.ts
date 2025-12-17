@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 import { updateTimesheetEntry, deleteTimesheetEntry, getTimesheetById } from '@/lib/db/timesheets';
 
+export const dynamic = 'force-dynamic';
+
 // Update Entry
 export async function PUT(
     request: NextRequest,
