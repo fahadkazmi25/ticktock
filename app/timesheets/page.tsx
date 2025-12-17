@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { Header } from '@/components/dashboard/Header';
 import { Footer } from '@/components/dashboard/Footer';
@@ -7,7 +7,7 @@ import { Filters } from '@/components/dashboard/Filters';
 import { TimesheetsTable } from '@/components/dashboard/TimesheetsTable';
 import { Pagination } from '@/components/ui/Pagination';
 
-export default function TimesheetsPage() {
+function TimesheetsContent() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
@@ -133,5 +133,13 @@ export default function TimesheetsPage() {
                 <Footer />
             </main>
         </div>
+    );
+}
+
+export default function TimesheetsPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+            <TimesheetsContent />
+        </Suspense>
     );
 }
