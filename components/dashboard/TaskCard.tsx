@@ -20,17 +20,19 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit, onDelete }) =>
     const [showMenu, setShowMenu] = useState(false);
 
     return (
-        <div className="flex items-center justify-between py-2 px-2 border border-gray-200 rounded-lg bg-white hover:border-gray-300 transition-colors">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 px-3 sm:py-2 sm:px-2 border border-gray-200 rounded-lg bg-white hover:border-gray-300 transition-colors gap-3 sm:gap-0">
             <div className="flex-1">
                 <p className="text-sm text-gray-900">{task.description}</p>
             </div>
 
-            <div className="flex items-center gap-3">
-                <span className="text-sm text-gray-400">{task.hours} hrs</span>
+            <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
+                <div className="flex items-center gap-3">
+                    <span className="text-sm text-gray-400">{task.hours} hrs</span>
 
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-md">
-                    {task.projectName}
-                </span>
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-md">
+                        {task.projectName}
+                    </span>
+                </div>
 
                 <div className="relative">
                     <button

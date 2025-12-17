@@ -31,7 +31,7 @@ const globalForTimesheets = global as unknown as {
     timesheetEntries: TimesheetEntry[];
 };
 
-export const timesheets: Timesheet[] = globalForTimesheets.timesheets || [
+export const timesheets: Timesheet[] = [
     {
         id: '1',
         userId: '1',
@@ -92,10 +92,70 @@ export const timesheets: Timesheet[] = globalForTimesheets.timesheets || [
         createdAt: '2024-01-28T00:00:00Z',
         updatedAt: '2024-01-28T00:00:00Z',
     },
+    {
+        id: '6',
+        userId: '1',
+        weekNumber: 47,
+        year: 2025,
+        startDate: '2025-11-24',
+        endDate: '2025-11-28',
+        totalHours: 35,
+        status: 'incomplete',
+        createdAt: '2025-11-24T00:00:00Z',
+        updatedAt: '2025-11-28T23:59:59Z',
+    },
+    {
+        id: '7',
+        userId: '1',
+        weekNumber: 46,
+        year: 2025,
+        startDate: '2025-11-17',
+        endDate: '2025-11-21',
+        totalHours: 40,
+        status: 'completed',
+        createdAt: '2025-11-17T00:00:00Z',
+        updatedAt: '2025-11-21T23:59:59Z',
+    },
+    {
+        id: '8',
+        userId: '1',
+        weekNumber: 45,
+        year: 2025,
+        startDate: '2025-11-10',
+        endDate: '2025-11-14',
+        totalHours: 0,
+        status: 'missing',
+        createdAt: '2025-11-10T00:00:00Z',
+        updatedAt: '2025-11-10T00:00:00Z',
+    },
+    {
+        id: '9',
+        userId: '1',
+        weekNumber: 44,
+        year: 2025,
+        startDate: '2025-11-03',
+        endDate: '2025-11-07',
+        totalHours: 30,
+        status: 'incomplete',
+        createdAt: '2025-11-03T00:00:00Z',
+        updatedAt: '2025-11-07T23:59:59Z',
+    },
+    {
+        id: '10',
+        userId: '1',
+        weekNumber: 43,
+        year: 2025,
+        startDate: '2025-10-27',
+        endDate: '2025-10-31',
+        totalHours: 40,
+        status: 'completed',
+        createdAt: '2025-10-27T00:00:00Z',
+        updatedAt: '2025-10-31T23:59:59Z',
+    },
 ];
 
 // Mock timesheet entries database
-export const timesheetEntries: TimesheetEntry[] = globalForTimesheets.timesheetEntries || [
+export const timesheetEntries: TimesheetEntry[] = [
     // Week 1 entries
     {
         id: '1',
@@ -249,6 +309,44 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Helper functions
+export const getTimesheets = (
+    userId: string,
+    options: {
+        status?: string;
+        startDate?: string;
+        endDate?: string;
+        page?: number;
+        pageSize?: number;
+    }
+): { timesheets: Timesheet[]; total: number } => {
+    let filtered = timesheets.filter(ts => ts.userId === userId);
+
+    if (options.status && options.status !== 'all') {
+        filtered = filtered.filter(ts => ts.status === options.status);
+    }
+
+    if (options.startDate) {
+        filtered = filtered.filter(ts => ts.endDate >= options.startDate!);
+    }
+
+    if (options.endDate) {
+        filtered = filtered.filter(ts => ts.startDate <= options.endDate!);
+    }
+
+    const total = filtered.length;
+
+    // Sort by date descending
+    filtered.sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+
+    if (options.page && options.pageSize) {
+        const start = (options.page - 1) * options.pageSize;
+        const end = start + options.pageSize;
+        filtered = filtered.slice(start, end);
+    }
+
+    return { timesheets: filtered, total };
+};
+
 export const getTimesheetsByUserId = (userId: string): Timesheet[] => {
     return timesheets.filter(ts => ts.userId === userId);
 };

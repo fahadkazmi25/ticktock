@@ -1,29 +1,47 @@
 'use client';
-
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { Header } from '@/components/dashboard/Header';
 import { Footer } from '@/components/dashboard/Footer';
 import { Filters } from '@/components/dashboard/Filters';
 import { TimesheetsTable } from '@/components/dashboard/TimesheetsTable';
 import { Pagination } from '@/components/ui/Pagination';
-import { generateMockTimesheets, filterTimesheets, paginateTimesheets } from '@/lib/timesheets';
 
 export default function TimesheetsPage() {
-    const [dateRange, setDateRange] = useState('');
-    const [statusFilter, setStatusFilter] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(5);
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const { replace } = useRouter();
+
+    // Derived state from URL
+    const currentPage = Number(searchParams.get('page')) || 1;
+    const itemsPerPage = Number(searchParams.get('pageSize')) || 5;
+    const statusFilter = searchParams.get('status') || '';
+    const startDate = searchParams.get('startDate') || '';
+    const endDate = searchParams.get('endDate') || '';
+
     const [timesheets, setTimesheets] = useState<any[]>([]);
+    const [totalItems, setTotalItems] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchTimesheets = async () => {
+            setIsLoading(true);
             try {
-                const response = await fetch('/api/timesheets');
+                // Pass current URL params directly to API
+                const params = new URLSearchParams(searchParams.toString());
+
+                // Ensure defaults are set if missing in URL
+                if (!params.has('page')) params.set('page', '1');
+                if (!params.has('pageSize')) params.set('pageSize', '5');
+
+                const response = await fetch(`/api/timesheets?${params.toString()}`);
 
                 if (response.ok) {
                     const data = await response.json();
                     setTimesheets(data.data);
+                    if (data.pagination) {
+                        setTotalItems(data.pagination.total);
+                    }
                 }
             } catch (error) {
                 console.error('Failed to fetch timesheets', error);
@@ -33,29 +51,45 @@ export default function TimesheetsPage() {
         };
 
         fetchTimesheets();
-    }, []);
+    }, [searchParams]);
 
-    const filteredTimesheets = useMemo(() => {
-        return filterTimesheets(timesheets, statusFilter);
-    }, [timesheets, statusFilter]);
-
-    const paginatedTimesheets = useMemo(() => {
-        return paginateTimesheets(filteredTimesheets, currentPage, itemsPerPage);
-    }, [filteredTimesheets, currentPage, itemsPerPage]);
-
-    const totalPages = Math.ceil(filteredTimesheets.length / itemsPerPage);
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const handleAction = (id: string, action: 'view' | 'update' | 'create') => {
         console.log(`Action: ${action} for timesheet ${id}`);
     };
 
+    // Helper to update URL params
+    const updateParams = (updates: Record<string, string | null>) => {
+        const params = new URLSearchParams(searchParams.toString());
+
+        Object.entries(updates).forEach(([key, value]) => {
+            if (value === null || value === '') {
+                params.delete(key);
+            } else {
+                params.set(key, value);
+            }
+        });
+
+        replace(`${pathname}?${params.toString()}`);
+    };
+
     const handlePageChange = (page: number) => {
-        setCurrentPage(page);
+        updateParams({ page: page.toString() });
     };
 
     const handleItemsPerPageChange = (items: number) => {
-        setItemsPerPage(items);
-        setCurrentPage(1);
+        updateParams({
+            pageSize: items.toString(),
+            page: '1' // Reset to page 1
+        });
+    };
+
+    const handleFilterChange = (key: string, value: string) => {
+        updateParams({
+            [key]: value,
+            page: '1' // Reset to page 1 on filter change
+        });
     };
 
     return (
@@ -68,22 +102,24 @@ export default function TimesheetsPage() {
                     <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
                         <h1 className="text-2xl font-bold text-gray-900 mb-6">Your Timesheets</h1>
                         <Filters
-                            dateRange={dateRange}
+                            startDate={startDate}
+                            endDate={endDate}
                             status={statusFilter}
-                            onDateRangeChange={setDateRange}
-                            onStatusChange={setStatusFilter}
+                            onStartDateChange={(val) => handleFilterChange('startDate', val)}
+                            onEndDateChange={(val) => handleFilterChange('endDate', val)}
+                            onStatusChange={(val) => handleFilterChange('status', val)}
                         />
                     </div>
 
                     {/* Table */}
                     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
                         <TimesheetsTable
-                            timesheets={paginatedTimesheets}
+                            timesheets={timesheets}
                             onAction={handleAction}
                         />
 
                         {/* Pagination */}
-                        {filteredTimesheets.length > 0 && (
+                        {timesheets.length > 0 && (
                             <Pagination
                                 currentPage={currentPage}
                                 totalPages={totalPages}
@@ -96,8 +132,6 @@ export default function TimesheetsPage() {
                 </div>
                 <Footer />
             </main>
-
-
         </div>
     );
 }

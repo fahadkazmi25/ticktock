@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
-import { getTimesheetsByUserId } from '@/lib/db/timesheets';
+import { getTimesheetsByUserId, getTimesheets } from '@/lib/db/timesheets';
 import { format, parseISO } from 'date-fns';
 
 export const dynamic = 'force-dynamic';
@@ -17,9 +17,23 @@ export async function GET(request: NextRequest) {
             );
         }
 
+        // Get query params
+        const { searchParams } = new URL(request.url);
+        const status = searchParams.get('status') || undefined;
+        const startDate = searchParams.get('startDate') || undefined;
+        const endDate = searchParams.get('endDate') || undefined;
+        const page = parseInt(searchParams.get('page') || '1');
+        const pageSize = parseInt(searchParams.get('pageSize') || '5');
+
         // Get timesheets for user
         const userId = (session.user as any).id;
-        const rawTimesheets = getTimesheetsByUserId(userId);
+        const { timesheets: rawTimesheets, total } = getTimesheets(userId, {
+            status,
+            startDate,
+            endDate,
+            page,
+            pageSize,
+        });
 
         // Transform data for frontend
         const timesheets = rawTimesheets.map(ts => ({
@@ -33,6 +47,12 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
             success: true,
             data: timesheets,
+            pagination: {
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            }
         });
     } catch (error) {
         console.error('Get timesheets error:', error);

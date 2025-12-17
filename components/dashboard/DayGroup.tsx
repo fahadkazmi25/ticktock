@@ -22,9 +22,9 @@ export const DayGroup: React.FC<DayGroupProps> = ({
     onDeleteTask,
 }) => {
     return (
-        <div className="flex gap-6 mb-6">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 mb-6">
             {/* Date Label on Left */}
-            <div className="w-20 flex-shrink-0 pt-3">
+            <div className="w-full sm:w-20 flex-shrink-0 pt-0 sm:pt-3">
                 <h3 className="text-sm font-semibold text-gray-900">{dayLabel}</h3>
             </div>
 
