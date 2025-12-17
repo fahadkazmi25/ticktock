@@ -109,29 +109,60 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                             <span className="text-red-500">*</span>
                             <Info className="w-4 h-4 text-gray-500" />
                         </label>
-                        <select
-                            value={formData.projectId}
-                            onChange={(e) => {
-                                const selectedOption = e.target.options[e.target.selectedIndex];
-                                setFormData(prev => ({
-                                    ...prev,
-                                    projectId: e.target.value,
-                                    projectName: selectedOption.text,
-                                }));
-                            }}
-                            required
-                            className="w-full px-4 py-2.5 appearance-none border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-500"
-                        >
-                            <option value="">Select Project</option>
-                            <option value="1">E-Commerce Platform</option>
-                            <option value="2">Mobile Banking App</option>
-                            <option value="3">Healthcare Portal</option>
-                            <option value="4">Learning Management System</option>
-                            <option value="5">CRM Dashboard</option>
-                            <option value="6">Inventory Management</option>
-                            <option value="7">Real Estate Portal</option>
-                            <option value="8">Social Media Analytics</option>
-                        </select>
+                        <div className="relative w-full ">
+                            <select
+                                value={formData.projectId}
+                                onChange={(e) => {
+                                    const selectedOption = e.target.options[e.target.selectedIndex];
+                                    setFormData(prev => ({
+                                        ...prev,
+                                        projectId: e.target.value,
+                                        projectName: selectedOption.text,
+                                    }));
+                                }}
+                                required
+                                className="
+      w-full px-4 py-2.5 pr-10
+      appearance-none
+      border border-gray-300
+      rounded-lg
+      bg-white
+      text-gray-500
+      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+    "
+                            >
+                                <option value="">Select Project</option>
+                                <option value="1">E-Commerce Platform</option>
+                                <option value="2">Mobile Banking App</option>
+                                <option value="3">Healthcare Portal</option>
+                                <option value="4">Learning Management System</option>
+                                <option value="5">CRM Dashboard</option>
+                                <option value="6">Inventory Management</option>
+                                <option value="7">Real Estate Portal</option>
+                                <option value="8">Social Media Analytics</option>
+                            </select>
+
+                            {/* Custom Arrow */}
+                            <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
+                                <svg
+                                    className="
+        h-4 w-4 text-gray-400
+        transition-transform duration-200 ease-in-out
+        group-focus-within:rotate-180
+      "
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+
 
 
                     </div>
@@ -143,28 +174,61 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                             <span className="text-red-500">*</span>
                             <Info className="w-4 h-4 text-gray-400" />
                         </label>
-                        <select
-                            value={formData.workType}
-                            onChange={(e) => setFormData(prev => ({ ...prev, workType: e.target.value }))}
-                            required
-                            className="w-full px-4 py-2.5 appearance-none border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-400"
-                        >
-                            <option value="">Select Work Type</option>
-                            <option value="bug-fixes">Bug fixes</option>
-                            <option value="feature-development">Feature Development</option>
-                            <option value="code-review">Code Review</option>
-                            <option value="testing">Testing</option>
-                            <option value="documentation">Documentation</option>
-                            <option value="api-integration">API Integration</option>
-                            <option value="performance-optimization">Performance Optimization</option>
-                            <option value="security-audit">Security Audit</option>
-                            <option value="ui-ux-design">UI/UX Design</option>
-                            <option value="database-optimization">Database Optimization</option>
-                            <option value="deployment">Deployment</option>
-                            <option value="meetings">Meetings</option>
-                            <option value="client-support">Client Support</option>
-                            <option value="research">Research</option>
-                        </select>
+                        <div className="relative w-full ">
+                            <select
+                                value={formData.workType}
+                                onChange={(e) =>
+                                    setFormData(prev => ({ ...prev, workType: e.target.value }))
+                                }
+                                required
+                                className="
+      w-full px-4 py-2.5 pr-10
+      appearance-none
+      border border-gray-300
+      rounded-lg
+      bg-white
+      text-gray-400
+      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+    "
+                            >
+                                <option value="">Select Work Type</option>
+                                <option value="bug-fixes">Bug fixes</option>
+                                <option value="feature-development">Feature Development</option>
+                                <option value="code-review">Code Review</option>
+                                <option value="testing">Testing</option>
+                                <option value="documentation">Documentation</option>
+                                <option value="api-integration">API Integration</option>
+                                <option value="performance-optimization">Performance Optimization</option>
+                                <option value="security-audit">Security Audit</option>
+                                <option value="ui-ux-design">UI/UX Design</option>
+                                <option value="database-optimization">Database Optimization</option>
+                                <option value="deployment">Deployment</option>
+                                <option value="meetings">Meetings</option>
+                                <option value="client-support">Client Support</option>
+                                <option value="research">Research</option>
+                            </select>
+
+                            {/* Custom Arrow */}
+                            <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
+                                <svg
+                                    className="
+        h-4 w-4 text-gray-400
+        transition-transform duration-200 ease-in-out
+        group-focus-within:rotate-180
+      "
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+
                     </div>
 
                     {/* Task Description */}

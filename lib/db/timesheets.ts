@@ -27,11 +27,11 @@ export interface Timesheet {
 
 // Mock timesheets database
 const globalForTimesheets = global as unknown as {
-    timesheets: Timesheet[];
-    timesheetEntries: TimesheetEntry[];
+    timesheets_v2: Timesheet[];
+    timesheetEntries_v2: TimesheetEntry[];
 };
 
-export const timesheets: Timesheet[] = [
+export const timesheets: Timesheet[] = globalForTimesheets.timesheets_v2 || [
     {
         id: '1',
         userId: '1',
@@ -155,7 +155,7 @@ export const timesheets: Timesheet[] = [
 ];
 
 // Mock timesheet entries database
-export const timesheetEntries: TimesheetEntry[] = [
+export const timesheetEntries: TimesheetEntry[] = globalForTimesheets.timesheetEntries_v2 || [
     // Week 1 entries
     {
         id: '1',
@@ -304,8 +304,8 @@ export const timesheetEntries: TimesheetEntry[] = [
 ];
 
 if (process.env.NODE_ENV !== 'production') {
-    globalForTimesheets.timesheets = timesheets;
-    globalForTimesheets.timesheetEntries = timesheetEntries;
+    globalForTimesheets.timesheets_v2 = timesheets;
+    globalForTimesheets.timesheetEntries_v2 = timesheetEntries;
 }
 
 // Helper functions
