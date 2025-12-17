@@ -42,7 +42,7 @@ export const DayGroup: React.FC<DayGroupProps> = ({
                 {/* Add Task Button */}
                 <button
                     onClick={() => onAddTask(date)}
-                    className="w-full py-2 px-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg flex items-center justify-center gap-2 transition-colors border-2 border-dashed border-gray-300 hover:border-blue-400"
+                    className="w-full py-2 cursor-pointer px-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg flex items-center justify-center gap-2 transition-colors border-2 border-dashed border-gray-300 hover:border-blue-400"
                 >
                     <Plus className="w-4 h-4" />
                     Add new task

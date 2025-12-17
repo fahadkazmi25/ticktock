@@ -174,11 +174,11 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                             Hours
                             <span className="text-red-500">*</span>
                         </label>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center">
                             <button
                                 type="button"
                                 onClick={decrementHours}
-                                className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                className="w-10 h-10 flex cursor-pointer items-center rounded-l-lg justify-center border border-gray-300  hover:bg-gray-50 transition-colors"
                             >
                                 <Minus className="w-4 h-4 text-gray-600" />
                             </button>
@@ -188,12 +188,13 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                                 onChange={handleHoursChange}
                                 min="0"
                                 required
-                                className="w-20 px-4 py-2 border border-gray-300 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                // onKeyDown={handleKeyDown} // Optional: Add this to prevent negative number input via keyboard
+                                className="w-15 px-2 py-2 border border-gray-300 text-center   focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                             />
                             <button
                                 type="button"
                                 onClick={incrementHours}
-                                className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                className="w-10 h-10 flex cursor-pointer items-center justify-center border border-gray-300 rounded-r-lg hover:bg-gray-50 transition-colors"
                             >
                                 <Plus className="w-4 h-4 text-gray-600" />
                             </button>
@@ -204,14 +205,14 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                     <div className="flex gap-3">
                         <button
                             type="submit"
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors"
+                            className="flex-1 bg-[#1c64f2] cursor-pointer hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors"
                         >
                             {mode === 'add' ? 'Add entry' : 'Save changes'}
                         </button>
                         <button
                             type="button"
                             onClick={onClose}
-                            className="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-4 rounded-lg border border-gray-300 transition-colors"
+                            className="flex-1 bg-white hover:bg-gray-50 cursor-pointer text-gray-700 font-medium py-2.5 px-4 rounded-lg border border-gray-300 transition-colors"
                         >
                             Cancel
                         </button>

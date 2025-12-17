@@ -42,7 +42,7 @@ export const DaySection: React.FC<DaySectionProps> = ({
                 {/* Add Task Button */}
                 <button
                     onClick={() => onAddTask(date)}
-                    className="w-full py-3 px-4 text-sm text-gray-600 hover:bg-blue-50 rounded-lg flex items-center justify-center gap-2 transition-colors border-2 border-dashed border-gray-300 hover:border-blue-400 my-2 mx-4"
+                    className="w-full py-3 px-4 cursor-pointer text-sm text-gray-600 hover:bg-blue-50 rounded-lg flex items-center justify-center gap-2 transition-colors border-2 border-dashed border-gray-300 hover:border-blue-400 my-2 mx-4"
                     style={{ width: 'calc(100% - 2rem)' }}
                 >
                     <Plus className="w-4 h-4" />
