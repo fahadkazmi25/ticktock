@@ -10,7 +10,7 @@ import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Task } from '@/components/dashboard/TaskCard';
 import { TaskModal, TaskFormData } from '@/components/dashboard/TaskModal';
 import { calculateTotalHours, DayData } from '@/lib/timesheetDetail';
-import { format, parseISO, startOfWeek, addDays } from 'date-fns';
+import { format, parseISO, addDays } from 'date-fns';
 
 export default function TimesheetDetailPage() {
     const params = useParams();
@@ -27,15 +27,7 @@ export default function TimesheetDetailPage() {
     // Fetch data
     const fetchData = async () => {
         try {
-            const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-            // if (!token) {
-            //     router.push('/login');
-            //     return;
-            // }
-
-            const response = await fetch(`/api/timesheets/${timesheetId}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            const response = await fetch(`/api/timesheets/${timesheetId}`);
 
             if (response.ok) {
                 const { data } = await response.json();
@@ -107,10 +99,8 @@ export default function TimesheetDetailPage() {
         if (!confirm('Are you sure you want to delete this task?')) return;
 
         try {
-            const token = sessionStorage.getItem('token') || localStorage.getItem('token');
             const response = await fetch(`/api/timesheets/${timesheetId}/entries/${taskId}`, {
                 method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
             });
 
             if (response.ok) {
@@ -126,14 +116,11 @@ export default function TimesheetDetailPage() {
 
     const handleSaveTask = async (formData: TaskFormData) => {
         try {
-            const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-
             if (modalMode === 'add') {
                 const response = await fetch(`/api/timesheets/${timesheetId}/entries`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         ...formData,
@@ -152,7 +139,6 @@ export default function TimesheetDetailPage() {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify(formData),
                 });

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/authOptions';
 import { getTimesheetById, getEntriesByTimesheetId } from '@/lib/db/timesheets';
-import { verifyToken } from '@/lib/auth';
 
 export async function GET(
     request: NextRequest,
@@ -8,25 +9,16 @@ export async function GET(
 ) {
     try {
         const { id } = await params;
+        const session = await getServerSession(authOptions);
 
-        // Get token from header
-        const authHeader = request.headers.get('authorization');
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        if (!session || !session.user) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 401 }
             );
         }
 
-        const token = authHeader.split(' ')[1];
-        const payload = verifyToken(token);
-
-        if (!payload) {
-            return NextResponse.json(
-                { error: 'Invalid token' },
-                { status: 401 }
-            );
-        }
+        const userId = (session.user as any).id;
 
         // Get timesheet
         const timesheet = getTimesheetById(id);
@@ -38,7 +30,7 @@ export async function GET(
         }
 
         // Verify ownership
-        if (timesheet.userId !== payload.userId) {
+        if (timesheet.userId !== userId) {
             return NextResponse.json(
                 { error: 'Forbidden' },
                 { status: 403 }
