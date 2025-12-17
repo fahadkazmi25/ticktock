@@ -51,7 +51,7 @@ A modern, responsive timesheet management application built with Next.js 16 and 
 
 ## wm Time Spent
 
-**Approx. 3 Hours**
+**Approx. 6-7 Hours**
 
 *   Initial setup and configuration.
 *   Implementation of Dashboard and Timesheet Detail views.
