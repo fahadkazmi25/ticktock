@@ -138,7 +138,7 @@ function TimesheetsContent() {
 
 export default function TimesheetsPage() {
     return (
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center font-semibold text-md">ticktock</div>}>
             <TimesheetsContent />
         </Suspense>
     );

@@ -190,7 +190,7 @@ export default function TimesheetDetailPage() {
     };
 
     if (isLoading) {
-        return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+        return <div className="min-h-screen flex items-center justify-center text-md font-semibold">ticktock</div>;
     }
 
     if (!timesheetData) {

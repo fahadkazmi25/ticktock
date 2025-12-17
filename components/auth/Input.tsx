@@ -7,6 +7,7 @@ interface InputProps {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     id: string;
+    error?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -16,6 +17,7 @@ export const Input: React.FC<InputProps> = ({
     value,
     onChange,
     id,
+    error,
 }) => {
     return (
         <div className="mb-4">
@@ -28,8 +30,10 @@ export const Input: React.FC<InputProps> = ({
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${error ? 'border-red-500' : 'border-gray-300'
+                    }`}
             />
+            {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
         </div>
     );
 };

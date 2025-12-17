@@ -14,9 +14,37 @@ export const LoginForm: React.FC = () => {
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+
+    const validateForm = () => {
+        const newErrors: { email?: string; password?: string } = {};
+        let isValid = true;
+
+        if (!email) {
+            newErrors.email = 'Email is required';
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            newErrors.email = 'Please enter a valid email address';
+            isValid = false;
+        }
+
+        if (!password) {
+            newErrors.password = 'Password is required';
+            isValid = false;
+        } else if (password.length < 6) {
+            newErrors.password = 'Password must be at least 6 characters';
+            isValid = false;
+        }
+
+        setErrors(newErrors);
+        return isValid;
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!validateForm()) return;
+
         setIsLoading(true);
 
         try {
@@ -50,8 +78,12 @@ export const LoginForm: React.FC = () => {
                     type="email"
                     placeholder="name@example.com"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (errors.email) setErrors(prev => ({ ...prev, email: undefined }));
+                    }}
                     id="email"
+                    error={errors.email}
                 />
 
                 <Input
@@ -59,8 +91,12 @@ export const LoginForm: React.FC = () => {
                     type="password"
                     placeholder="••••••••••"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {
+                        setPassword(e.target.value);
+                        if (errors.password) setErrors(prev => ({ ...prev, password: undefined }));
+                    }}
                     id="password"
+                    error={errors.password}
                 />
 
                 <Checkbox
