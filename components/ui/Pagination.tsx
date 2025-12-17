@@ -53,16 +53,45 @@ export const Pagination: React.FC<PaginationProps> = ({
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 bg-white border-t border-gray-200">
             {/* Items per page */}
             <div className="flex items-center gap-2">
-                <select
-                    value={itemsPerPage}
-                    onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
-                    className="px-3 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    <option value={5}>5 per page</option>
-                    <option value={10}>10 per page</option>
-                    <option value={20}>20 per page</option>
-                    <option value={50}>50 per page</option>
-                </select>
+                <div className="relative inline-block">
+                    <select
+                        value={itemsPerPage}
+                        onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
+                        className="
+      px-3 py-2 pr-10
+      border border-gray-300
+      rounded-md text-sm
+      appearance-none
+      focus:outline-none focus:ring-2 focus:ring-blue-500
+      bg-white
+    "
+                    >
+                        <option value={5}>5 per page</option>
+                        <option value={10}>10 per page</option>
+                        <option value={20}>20 per page</option>
+                        <option value={50}>50 per page</option>
+                    </select>
+
+                    {/* Custom Arrow */}
+                    <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                        <svg
+                            className="
+        h-4 w-4 text-gray-500
+        transition-transform duration-200 ease-in-out
+        group-focus-within:rotate-180
+      "
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </div>
+                </div>
+
             </div>
 
             {/* Page numbers */}

@@ -84,11 +84,11 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-lg shadow-xl w-full max-w-lg"
+                className="bg-white rounded-lg shadow-xl w-full max-w-xl"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                <div className="flex items-center justify-between p-4 border-b border-gray-200">
                     <h2 className="text-lg font-semibold text-gray-900">
                         {mode === 'add' ? 'Add New Entry' : 'Edit Entry'}
                     </h2>
@@ -107,7 +107,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                         <label className="flex items-center gap-1 text-sm font-medium text-gray-900 mb-2">
                             Select Project
                             <span className="text-red-500">*</span>
-                            <Info className="w-4 h-4 text-gray-400" />
+                            <Info className="w-4 h-4 text-gray-500" />
                         </label>
                         <select
                             value={formData.projectId}
@@ -120,13 +120,20 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                                 }));
                             }}
                             required
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                            className="w-full px-4 py-2.5 appearance-none border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-500"
                         >
-                            <option value="">Project Name</option>
-                            <option value="1">Project Name</option>
-                            <option value="2">Another Project</option>
-                            <option value="3">Sample Project</option>
+                            <option value="">Select Project</option>
+                            <option value="1">E-Commerce Platform</option>
+                            <option value="2">Mobile Banking App</option>
+                            <option value="3">Healthcare Portal</option>
+                            <option value="4">Learning Management System</option>
+                            <option value="5">CRM Dashboard</option>
+                            <option value="6">Inventory Management</option>
+                            <option value="7">Real Estate Portal</option>
+                            <option value="8">Social Media Analytics</option>
                         </select>
+
+
                     </div>
 
                     {/* Type of Work */}
@@ -140,14 +147,23 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                             value={formData.workType}
                             onChange={(e) => setFormData(prev => ({ ...prev, workType: e.target.value }))}
                             required
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                            className="w-full px-4 py-2.5 appearance-none border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-400"
                         >
-                            <option value="">Bug fixes</option>
+                            <option value="">Select Work Type</option>
                             <option value="bug-fixes">Bug fixes</option>
                             <option value="feature-development">Feature Development</option>
                             <option value="code-review">Code Review</option>
                             <option value="testing">Testing</option>
                             <option value="documentation">Documentation</option>
+                            <option value="api-integration">API Integration</option>
+                            <option value="performance-optimization">Performance Optimization</option>
+                            <option value="security-audit">Security Audit</option>
+                            <option value="ui-ux-design">UI/UX Design</option>
+                            <option value="database-optimization">Database Optimization</option>
+                            <option value="deployment">Deployment</option>
+                            <option value="meetings">Meetings</option>
+                            <option value="client-support">Client Support</option>
+                            <option value="research">Research</option>
                         </select>
                     </div>
 
@@ -163,7 +179,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                             required
                             placeholder="Write text here ..."
                             rows={5}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-900 placeholder:text-gray-400"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-500 placeholder:text-gray-400"
                         />
                         <p className="text-xs text-gray-500 mt-1">A note for extra info</p>
                     </div>
@@ -189,7 +205,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                                 min="0"
                                 required
                                 // onKeyDown={handleKeyDown} // Optional: Add this to prevent negative number input via keyboard
-                                className="w-15 px-2 py-2 border border-gray-300 text-center   focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                className="w-15 px-2 py-2 border border-gray-300 text-center  text-gray-500  focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                             />
                             <button
                                 type="button"

@@ -9,6 +9,7 @@ import { DayGroup } from '@/components/dashboard/DayGroup';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Task } from '@/components/dashboard/TaskCard';
 import { TaskModal, TaskFormData } from '@/components/dashboard/TaskModal';
+import { ConfirmationModal } from '@/components/dashboard/ConfirmationModal';
 import { calculateTotalHours, DayData } from '@/lib/timesheetDetail';
 import { format, parseISO, addDays } from 'date-fns';
 
@@ -19,10 +20,14 @@ export default function TimesheetDetailPage() {
 
     const [timesheetData, setTimesheetData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalMode, setModalMode] = useState<'add' | 'edit'>('add');
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [selectedDate, setSelectedDate] = useState<string>('');
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     // Fetch data
     const fetchData = async () => {
@@ -95,26 +100,37 @@ export default function TimesheetDetailPage() {
         setIsModalOpen(true);
     };
 
-    const handleDeleteTask = async (taskId: string) => {
-        if (!confirm('Are you sure you want to delete this task?')) return;
+    const handleDeleteTask = (taskId: string) => {
+        setTaskToDelete(taskId);
+        setIsDeleteModalOpen(true);
+    };
 
+    const confirmDeleteTask = async () => {
+        if (!taskToDelete) return;
+
+        setIsDeleting(true);
         try {
-            const response = await fetch(`/api/timesheets/${timesheetId}/entries/${taskId}`, {
+            const response = await fetch(`/api/timesheets/${timesheetId}/entries/${taskToDelete}`, {
                 method: 'DELETE',
             });
 
             if (response.ok) {
                 toast.success('Task deleted');
                 fetchData(); // Refresh data
+                setIsDeleteModalOpen(false);
+                setTaskToDelete(null);
             } else {
                 toast.error('Failed to delete task');
             }
         } catch (error) {
             toast.error('Error deleting task');
+        } finally {
+            setIsDeleting(false);
         }
     };
 
     const handleSaveTask = async (formData: TaskFormData) => {
+        setIsSubmitting(true);
         try {
             if (modalMode === 'add') {
                 const response = await fetch(`/api/timesheets/${timesheetId}/entries`, {
@@ -131,6 +147,7 @@ export default function TimesheetDetailPage() {
                 if (response.ok) {
                     toast.success('Task added successfully');
                     fetchData();
+                    setIsModalOpen(false);
                 } else {
                     toast.error('Failed to add task');
                 }
@@ -146,12 +163,15 @@ export default function TimesheetDetailPage() {
                 if (response.ok) {
                     toast.success('Task updated successfully');
                     fetchData();
+                    setIsModalOpen(false);
                 } else {
                     toast.error('Failed to update task');
                 }
             }
         } catch (error) {
             toast.error('Error saving task');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -227,6 +247,16 @@ export default function TimesheetDetailPage() {
                 onSave={handleSaveTask}
                 initialData={getInitialFormData()}
                 mode={modalMode}
+            // isLoading={isSubmitting}
+            />
+
+            <ConfirmationModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={confirmDeleteTask}
+                title="Delete Task"
+                message="Are you sure you want to delete this task? This action cannot be undone."
+                isLoading={isDeleting}
             />
         </div>
     );

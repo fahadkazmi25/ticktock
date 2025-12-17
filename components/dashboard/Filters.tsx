@@ -25,6 +25,7 @@ export const Filters: React.FC<FiltersProps> = ({
     ];
 
     const statusOptions = [
+        { value: "", label: "Status" },
         { value: 'all', label: 'All Statuses' },
         { value: 'completed', label: 'Completed' },
         { value: 'incomplete', label: 'Incomplete' },
